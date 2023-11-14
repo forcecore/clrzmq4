@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -915,6 +915,51 @@ namespace ZeroMQ
 				return retur;
 			}
 			return GetType().FullName;
+		}
+
+		public string Group()
+		{
+			var rawData = zmq.msg_group(this.framePtr);
+
+			// Find where the C style string ends
+			var len = 0;
+			while (Marshal.ReadByte(rawData, len) != 0)
+				len++;
+
+			byte[] byteArray = new byte[len];
+			Marshal.Copy(rawData, byteArray, 0, len);
+
+			return Encoding.UTF8.GetString(byteArray);
+		}
+
+		public void SetGroup(string group)
+		{
+			ZError error;
+			if (!SetGroup(group, out error))
+			{
+				throw new ZException(error);
+			}
+		}
+
+		public bool SetGroup(string group, out ZError error)
+		{
+			error = default(ZError);
+
+			if (string.IsNullOrWhiteSpace(group))
+			{
+				throw new ArgumentException("IsNullOrWhiteSpace", "group");
+			}
+
+			using (var groupPtr = DispoIntPtr.AllocString(group))
+			{
+				if (-1 == zmq.msg_set_group(this.framePtr, groupPtr))
+				{
+					error = ZError.GetLastErr();
+					return false;
+				}
+			}
+
+			return true;
 		}
 	}
 }

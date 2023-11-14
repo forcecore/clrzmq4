@@ -303,6 +303,7 @@ namespace ZeroMQ.lib
 
 		// boolbada: src/socket_base.cpp getsockopt와 bind 사이에 join/leave가 있음. 모든 함수가 다 expose된 것도 아니라서
 		// 여기쯤 대충 넣으면 상대적 위치는 맞음.
+		// ZMQ_EXPORT int zmq_join (void *s, const char *group);
 		[DllImport(LibraryName, EntryPoint = "zmq_join", CallingConvention = CCCdecl)]
 		private static extern Int32 zmq_join(IntPtr socket, IntPtr group);
 		[DllImport(__Internal, EntryPoint = "zmq_join", CallingConvention = CCCdecl)]
@@ -310,12 +311,29 @@ namespace ZeroMQ.lib
 		public delegate Int32 zmq_join_delegate(IntPtr socket, IntPtr group);
 		public static readonly zmq_join_delegate join = zmq_join;
 
+		// ZMQ_EXPORT int zmq_leave (void *s, const char *group);
 		[DllImport(LibraryName, EntryPoint = "zmq_leave", CallingConvention = CCCdecl)]
 		private static extern Int32 zmq_leave(IntPtr socket, IntPtr group);
 		[DllImport(__Internal, EntryPoint = "zmq_leave", CallingConvention = CCCdecl)]
 		private static extern Int32 zmq_leave__Internal(IntPtr socket, IntPtr group);
 		public delegate Int32 zmq_leave_delegate(IntPtr socket, IntPtr group);
 		public static readonly zmq_leave_delegate leave = zmq_leave;
+
+		// ZMQ_EXPORT int zmq_msg_set_group (zmq_msg_t *msg, const char *group);
+		[DllImport(LibraryName, EntryPoint = "zmq_msg_set_group", CallingConvention = CCCdecl)]
+		private static extern Int32 zmq_msg_set_group(IntPtr msg, IntPtr group);
+		[DllImport(__Internal, EntryPoint = "zmq_msg_set_group", CallingConvention = CCCdecl)]
+		private static extern Int32 zmq_msg_set_group__Internal(IntPtr msg, IntPtr group);
+		public delegate Int32 zmq_msg_set_group_delegate(IntPtr msg, IntPtr group);
+		public static readonly zmq_msg_set_group_delegate msg_set_group = zmq_msg_set_group;
+
+		// ZMQ_EXPORT const char *zmq_msg_group (zmq_msg_t *msg);
+		[DllImport(LibraryName, EntryPoint = "zmq_msg_group", CallingConvention = CCCdecl)]
+		private static extern IntPtr zmq_msg_group(IntPtr msg);
+		[DllImport(__Internal, EntryPoint = "zmq_msg_group", CallingConvention = CCCdecl)]
+		private static extern IntPtr zmq_msg_group__Internal(IntPtr msg);
+		public delegate IntPtr zmq_msg_group_delegate(IntPtr msg);
+		public static readonly zmq_msg_group_delegate msg_group = zmq_msg_group;
 
 		[DllImport(LibraryName, EntryPoint = "zmq_bind", CallingConvention = CCCdecl)]
 		private static extern Int32 zmq_bind(IntPtr socket, IntPtr endpoint);
