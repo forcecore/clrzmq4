@@ -8,7 +8,8 @@ set -e
 # fi
 
 
-msbuild clrzmq4.mono.sln  /p:Configuration=Release  "$2" "$3" "$4" "$5"
+# msbuild clrzmq4.mono.sln  /p:Configuration=Release  "$2" "$3" "$4" "$5"
+dotnet build /t:rebuild clrzmq4.netcore.sln --configuration Release
 
 
 

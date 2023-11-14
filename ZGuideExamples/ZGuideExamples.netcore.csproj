@@ -9,6 +9,9 @@
     <AssemblyName>ZGuideExamples</AssemblyName>
     <DefaultItemExcludes>$(DefaultItemExcludes);AssemblyInfo.cs</DefaultItemExcludes>
     <LangVersion>default</LangVersion>
+
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
