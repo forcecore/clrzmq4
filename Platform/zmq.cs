@@ -1,4 +1,4 @@
-﻿namespace ZeroMQ.lib
+namespace ZeroMQ.lib
 {
 	using System;
 	using System.Runtime.InteropServices;
@@ -300,6 +300,22 @@
 		private static extern Int32 zmq_setsockopt__Internal(IntPtr socket, Int32 option_name, IntPtr option_value, Int32 option_len);
 		public delegate Int32 zmq_setsockopt_delegate(IntPtr socket, Int32 option_name, IntPtr option_value, Int32 option_len);
 		public static readonly zmq_setsockopt_delegate setsockopt = zmq_setsockopt;
+
+		// boolbada: src/socket_base.cpp getsockopt와 bind 사이에 join/leave가 있음. 모든 함수가 다 expose된 것도 아니라서
+		// 여기쯤 대충 넣으면 상대적 위치는 맞음.
+		[DllImport(LibraryName, EntryPoint = "zmq_join", CallingConvention = CCCdecl)]
+		private static extern Int32 zmq_join(IntPtr socket, IntPtr group);
+		[DllImport(__Internal, EntryPoint = "zmq_join", CallingConvention = CCCdecl)]
+		private static extern Int32 zmq_join__Internal(IntPtr socket, IntPtr group);
+		public delegate Int32 zmq_join_delegate(IntPtr socket, IntPtr group);
+		public static readonly zmq_join_delegate join = zmq_join;
+
+		[DllImport(LibraryName, EntryPoint = "zmq_leave", CallingConvention = CCCdecl)]
+		private static extern Int32 zmq_leave(IntPtr socket, IntPtr group);
+		[DllImport(__Internal, EntryPoint = "zmq_leave", CallingConvention = CCCdecl)]
+		private static extern Int32 zmq_leave__Internal(IntPtr socket, IntPtr group);
+		public delegate Int32 zmq_leave_delegate(IntPtr socket, IntPtr group);
+		public static readonly zmq_leave_delegate leave = zmq_leave;
 
 		[DllImport(LibraryName, EntryPoint = "zmq_bind", CallingConvention = CCCdecl)]
 		private static extern Int32 zmq_bind(IntPtr socket, IntPtr endpoint);

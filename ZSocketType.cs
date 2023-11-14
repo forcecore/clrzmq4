@@ -83,6 +83,21 @@ namespace ZeroMQ
 		/// </summary>
 		/// <remarks>
 		/// </remarks>
-		STREAM
+		STREAM,
+
+		// DRAFT socket types
+		SERVER,
+		CLIENT,
+		RADIO,
+		DISH,
+		GATHER,
+		SCATTER,
+		DGRAM,
+		PEER,
+		CHANNEL,
+
+		// deprecated aliases
+		XREQ = DEALER,
+		XREP = ROUTER,
 	}
 }

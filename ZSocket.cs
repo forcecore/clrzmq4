@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -152,6 +152,68 @@ namespace ZeroMQ
 		/// Gets the <see cref="ZeroMQ.ZSocketType"/> value for the current socket.
 		/// </summary>
 		public ZSocketType SocketType { get { return _socketType; } }
+
+		public void Join(string group)
+		{
+			ZError error;
+			if (!Join(group, out error))
+			{
+				throw new ZException(error);
+			}
+		}
+
+		public bool Join(string group, out ZError error)
+		{
+			EnsureNotDisposed();
+
+			error = default(ZError);
+
+			if (string.IsNullOrWhiteSpace(group))
+			{
+				throw new ArgumentException("IsNullOrWhiteSpace", "group");
+			}
+
+			using (var groupPtr = DispoIntPtr.AllocString(group))
+			{
+				if (-1 == zmq.join(_socketPtr, groupPtr))
+				{
+					error = ZError.GetLastErr();
+					return false;
+				}
+			}
+			return true;
+		}
+
+		public void Leave(string group)
+		{
+			ZError error;
+			if (!Leave(group, out error))
+			{
+				throw new ZException(error);
+			}
+		}
+
+		public bool Leave(string group, out ZError error)
+		{
+			EnsureNotDisposed();
+
+			error = default(ZError);
+
+			if (string.IsNullOrWhiteSpace(group))
+			{
+				throw new ArgumentException("IsNullOrWhiteSpace", "group");
+			}
+
+			using (var groupPtr = DispoIntPtr.AllocString(group))
+			{
+				if (-1 == zmq.leave(_socketPtr, groupPtr))
+				{
+					error = ZError.GetLastErr();
+					return false;
+				}
+			}
+			return true;
+		}
 
 		/// <summary>
 		/// Bind the specified endpoint.
