@@ -8,6 +8,7 @@
     <RootNamespace>ZGuideExamples</RootNamespace>
     <AssemblyName>ZGuideExamples</AssemblyName>
     <DefaultItemExcludes>$(DefaultItemExcludes);AssemblyInfo.cs</DefaultItemExcludes>
+    <LangVersion>default</LangVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
